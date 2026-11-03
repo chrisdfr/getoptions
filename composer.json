@@ -2,6 +2,7 @@
     "name": "blackfox/getoptions",
     "description": "GetOptions permet de gérer les options passées en ligne de commande un script PHP",
     "type": "library",
+    "keywords": ["getoptions", "getopt", "getopts", "command", "argument", "php-cli", "argv"],
     "require": {
         "php": "^8.5"
     },
@@ -19,5 +20,6 @@
             "name": "Christophe Dufour",
             "email": "blackfox@proximus.be"
         }
-    ]
+    ],
+    "minimum-stability": "stable"
 }
