@@ -9,7 +9,7 @@
  */
 
 require "../vendor/autoload.php";
-use Blackfox\GetOptions\GetOptions;
+use ChrisDfr\GetOptions\GetOptions;
 
 if($argc == 1) {
     $command = "./main -a=x}x@x/x -bcd YYYY -ef -gh ZZZZ --help --aaa yyy/sdf --bbb=zertè§è§gf@ihj --aze -iVVVVVV -a xXx";

@@ -7,7 +7,7 @@
  * GetOptions permet de gérer les options passées en ligne de commande un script PHP
  */
 
-namespace Blackfox\GetOptions;
+namespace ChrisDfr\GetOptions;
 
 use Throwable;
 use Exception;
@@ -63,7 +63,7 @@ class GetOptions {
         self::$showErrors = $showErrors;
         self::$exitOnError = $exitOnError;
 
-        set_exception_handler("Blackfox\GetOptions\GetOptions::exceptionHandler");
+        set_exception_handler("ChrisDfr\GetOptions\GetOptions::exceptionHandler");
 
         self::verifyShortOption();
 
