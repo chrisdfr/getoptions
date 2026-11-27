@@ -9,7 +9,7 @@
 
 namespace ChrisDfr\GetOptions;
 
-use Exception;
+use ValueError;
 
 class GetOptions {
 
@@ -22,10 +22,9 @@ class GetOptions {
     protected static string $short_options;
     protected static array $long_options;
     protected static bool $showErrors;
-    protected static bool $exitOnError;
-    protected static array $options = [];
-    protected static array $positional = [];
-    protected static array $invalidOptions = [];
+    public protected(set) static array $options = [];
+    public protected(set) static array $positional = [];
+    public protected(set) static array $invalidOptions = [];
 
     /**
      * Analyse les options passées à la ligne de commande et retourne la valeur de options
@@ -36,18 +35,15 @@ class GetOptions {
      * [optional] Tableau des options longues
      * @param bool $showErrors
      * [optional] Affiche un message d'erreur en cas d'option invalide
-     * @param bool $exitOnError
-     * [optional] Arrête le script si une option invalide est trouvée. Ignoré si $showErrors = false
      * @return array
      * 
      */
-    public static function options(string $short_options, array $long_options = [], bool $showErrors = true, $exitOnError = false): array
+    public static function options(string $short_options, array $long_options = [], bool $showErrors = false): array
     {
         global $argv;
         self::$short_options = $short_options;
         self::$long_options = $long_options;
         self::$showErrors = $showErrors;
-        self::$exitOnError = $exitOnError;
 
         self::verifyShortOption();
 
@@ -76,28 +72,27 @@ class GetOptions {
 
     /**
      * Vérifie la chaine de caractères des options courtes
-     * 
+     * @throws ValueError
      * @return void
-     * @throws Exception
      */
     protected static function verifyShortOption(): void
     {
         if(!preg_match(self::SHORT_OPTIONS_VALIDATION_PATTERN, self::$short_options)) {
-            throw new Exception("Erreur: la valeur de l'argument short_options n'est pas valide.");
+            throw new ValueError("short_options: format de chaine invalide");
         }
     }
 
     /**
      * Vérifie le tableau des options longues
      * 
+     * @throws ValueError
      * @return void
-     * @throws Exception
      */
     protected static function verifyLongOption(): void
     {
         foreach(self::$long_options as $options) {
             if(!preg_match(self::LONG_OPTIONS_VALIDATION_PATTERN, $options)) {
-                throw new Exception("Erreur: la valeur de l'argument long_options n'est pas valide.");
+                throw new ValueError("long_options: format de chaine invalide");
             }
         }
     }
@@ -107,6 +102,7 @@ class GetOptions {
      * 
      * @param string $subject
      * @param array &$arguments
+     * @throws ValueError
      * @return void
      */
     protected static function analyzeShortOptions(string $subject, array &$arguments): void
@@ -130,11 +126,11 @@ class GetOptions {
                                 self::$options[][$subject] = $next;
                             }
                             else {
-                                throw new \Exception("Valeur requise pour l'option -- $subject.");
+                                throw new ValueError("Valeur requise pour l'option -- $subject.");
                             }
                         }
                         else {
-                            throw new Exception("Valeur requise pour l'option -- $subject.");
+                            throw new ValueError("Valeur requise pour l'option -- $subject.");
                         }
                     }
 
@@ -148,12 +144,7 @@ class GetOptions {
                 self::$invalidOptions [] = $subject[0];
 
                 if(self::$showErrors) {
-                    if(!self::$exitOnError) {
-                        fwrite(STDERR, "Option invalide ignorée -- $subject[0]" . PHP_EOL);
-                    }
-                    else {
-                        throw new Exception("Option invalide -- $subject[0]");
-                    }
+                    fwrite(STDERR, "Option invalide ignorée -- $subject[0]" . PHP_EOL);
                 }
             }
 
@@ -190,11 +181,11 @@ class GetOptions {
                             self::$options[][$subject] = $next;
                         }
                         else {
-                            throw new Exception("Valeur requise pour l'option -- $subject.");
+                            throw new ValueError("Valeur requise pour l'option -- $subject.");
                         }
                     }
                     else {
-                        throw new Exception("Valeur requise pour l'option -- $subject.");
+                        throw new ValueError("Valeur requise pour l'option -- $subject.");
                     }
                 }
             }
@@ -206,12 +197,7 @@ class GetOptions {
             self::$invalidOptions[] = $subject;
 
             if(self::$showErrors) {
-                if(!self::$exitOnError) {
-                        fwrite(STDERR, "Option invalide ignorée -- $subject" . PHP_EOL);
-                    }
-                    else {
-                        throw new Exception("Option invalide -- $subject");
-                    }
+                fwrite(STDERR, "Option invalide ignorée -- $subject" . PHP_EOL);
             }
         }
     }
