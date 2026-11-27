@@ -201,25 +201,4 @@ class GetOptions {
             }
         }
     }
-
-    /**
-     * Retourne le tableau des arguments positionnel
-     * 
-     * @return array
-     */
-    public static function positional(): array
-    {
-        return self::$positional;
-    }
-
-    /**
-     * Retourne le tableau des options invalides
-     * 
-     * @return array
-     */
-    public static function invalidOptions(): array
-    {
-        return self::$invalidOptions;
-    }
-
 }
