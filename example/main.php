@@ -8,7 +8,8 @@
  * Fichier de test
  */
 
-require "../vendor/autoload.php";
+require dirname(__DIR__) . "/vendor/autoload.php";
+
 use ChrisDfr\GetOptions\GetOptions;
 
 if($argc == 1) {
@@ -25,17 +26,40 @@ $long_options = [
     "version"
 ];
 
-//$options = GetOptions::options($short_options, $long_options , true, false);
-
 try {
-    //$options = GetOptions::options($short_options, $long_options , true, false);
     $options = GetOptions::options($short_options, $long_options, false);
 }
 catch(Exception $e) {
-    fwrite(STDERR, "$argv[0]: " . $e->getMessage());
+    fwrite(STDERR, "$argv[0]: [" . get_class($e) . "] " .  $e->getMessage());
+    exit(1);
+}
+catch(ValueError $e) {
+    fwrite(STDERR, basename(__FILE__) . ": [" . get_class($e) . "] " .  $e->getMessage());
     exit(1);
 }
 
-var_dump($options);
-var_dump(GetOptions::invalidOptions());
-var_dump(GetOptions::positional());
+echo "Options valide:" . PHP_EOL;
+
+foreach(GetOptions::$options as $opt) {
+    foreach($opt as $key => $value) {
+        if($value !== false) {
+            echo "  - " . $key, " => " . $value . PHP_EOL;
+        }
+        else {
+            echo "  - " . $key, "  " . PHP_EOL;
+        }
+    }
+}
+
+echo "Options invalides: ";
+
+foreach(GetOptions::$invalidOptions as $key) {
+    echo $key, "  ";
+}
+
+echo PHP_EOL;
+echo "Arguments positionnels: ";
+
+foreach(GetOptions::$positional as $key) {
+    echo $key, "  ";
+}
