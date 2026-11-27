@@ -149,7 +149,7 @@ class GetOptions {
 
                 if(self::$showErrors) {
                     if(!self::$exitOnError) {
-                        fwrite(STDERR, "Option invalide ignionée -- $subject[0]" . PHP_EOL);
+                        fwrite(STDERR, "Option invalide ignorée -- $subject[0]" . PHP_EOL);
                     }
                     else {
                         throw new Exception("Option invalide -- $subject[0]");
