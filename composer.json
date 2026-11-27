@@ -15,6 +15,5 @@
             "email": "blackfox@proximus.be"
         }
     ],
-    "minimum-stability": "stable",
     "require": {}
 }
