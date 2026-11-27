@@ -29,19 +29,6 @@ class GetOptions {
     protected static array $invalidOptions = [];
 
     /**
-     * Gestionnaire d'exceptions
-     * 
-     * @param Throwable $ex
-     * @return void
-     */
-    public static function exceptionHandler(Throwable $ex): void
-    {
-        global $argv;
-        fwrite(STDERR, "Erreur: " . $ex->getMessage() . PHP_EOL);
-        exit(1);
-    }
-
-    /**
      * Analyse les options passées à la ligne de commande et retourne la valeur de options
      * 
      * @param string $short_options
@@ -62,8 +49,6 @@ class GetOptions {
         self::$long_options = $long_options;
         self::$showErrors = $showErrors;
         self::$exitOnError = $exitOnError;
-
-        set_exception_handler("ChrisDfr\GetOptions\GetOptions::exceptionHandler");
 
         self::verifyShortOption();
 
