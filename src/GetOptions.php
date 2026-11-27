@@ -9,7 +9,6 @@
 
 namespace ChrisDfr\GetOptions;
 
-use Throwable;
 use Exception;
 
 class GetOptions {
