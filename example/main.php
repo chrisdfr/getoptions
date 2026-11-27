@@ -19,19 +19,10 @@ if($argc == 1) {
 }
 
 $short_options = "a:cefi:";
-$long_options = [
-    "aaa:",
-    "bbb:",
-    "help",
-    "version"
-];
+$long_options = ["aaa:", "bbb:", "help", "version"];
 
 try {
     $options = GetOptions::options($short_options, $long_options, false);
-}
-catch(Exception $e) {
-    fwrite(STDERR, "$argv[0]: [" . get_class($e) . "] " .  $e->getMessage());
-    exit(1);
 }
 catch(ValueError $e) {
     fwrite(STDERR, basename(__FILE__) . ": [" . get_class($e) . "] " .  $e->getMessage());
@@ -39,7 +30,6 @@ catch(ValueError $e) {
 }
 
 echo "Options valide:" . PHP_EOL;
-
 foreach(GetOptions::$options as $opt) {
     foreach($opt as $key => $value) {
         if($value !== false) {
@@ -52,14 +42,12 @@ foreach(GetOptions::$options as $opt) {
 }
 
 echo "Options invalides: ";
-
 foreach(GetOptions::$invalidOptions as $key) {
     echo $key, "  ";
 }
 
 echo PHP_EOL;
 echo "Arguments positionnels: ";
-
 foreach(GetOptions::$positional as $key) {
     echo $key, "  ";
 }
